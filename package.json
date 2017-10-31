@@ -15,5 +15,9 @@
   "devDependencies": {
     "eslint": "^4.10.0",
     "eslint-plugin-async-await": "^0.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "list": "node index.js --list"
   }
 }

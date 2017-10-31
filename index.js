@@ -15,21 +15,11 @@ nconf.set('serialPort', nconf.get('SERIALPORT') || nconf.get('serialPort') || '/
 nconf.set('testmode', nconf.get('TESTMODE') || nconf.get('testmode'));
 verifyConfig(nconf);
 
-if (nconf.get('version')) showVersionQuit();
-if (nconf.get('list')) showPortsQuit();
-if (nconf.get('help')) showHelpQuit();
-
-process.on('SIGINT', () => {
-  console.log('interrupted');
-  process.exit();
-});
-
-process.on('SIGTERM', () => {
-  console.log('terminated');
-  process.exit();
-});
-
 (async function() {
+  if (nconf.get('version')) showVersionQuit();
+  if (nconf.get('help')) showHelpQuit();
+  if (nconf.get('list')) await showPortsQuit();
+
   try {
     await server.start(nconf);
   } catch(e) {
@@ -37,18 +27,25 @@ process.on('SIGTERM', () => {
   }
 
   console.log(chalk.blue.bold('Press CTRL+C to quit.'));
-  spawnChild(nconf.get('wrap-cmd'));
+  // spawnChild(nconf.get('wrap-cmd'));
 })();
 
 /******************************************************************************/
 
 function showHelpQuit() {
+  console.log('By default, will auto discover Mi.light wifi box and calibrate');
+  console.log('minimum trigger distance 5s after start or rangefinder reconnect.');
+  console.log('');
   console.log('Options:');
-  console.log('  --help          - Prints this usage info');
-  console.log('  --list          - Prints available serial ports');
-  console.log('  --port n        - Listen port number for HTTP server (default: 3000)');
-  console.log("  --testmode      - Simulate serial port activity, don't open real ports");
-  console.log('  --version       - Prints server version number');
+  console.log('  --help             - Prints this usage info');
+  console.log('  --list             - Prints available serial ports');
+  console.log('  --serial-port dev  - Serial port device name (or path)');
+  console.log('  --bridge-mac       - MAC address for Mi.light wifi bridge (must also give IP)');
+  console.log('  --bridge-ip        - IP address for Mi.light wifi bridge (must also give MAC)');
+  console.log('  --min-distance     - Minimum trigger distance in tenths of a millimeter; will skip calibration');
+  console.log('  --reset-time-ms    - Time after object moves out of range before resetting lights');
+  // console.log("  --testmode         - Simulate serial port activity, don't open real ports");
+  console.log('  --version          - Prints server version number');
   process.exit();
 }
 
