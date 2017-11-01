@@ -2,8 +2,9 @@
 
 Or something.
 
-This ties together my Teensy-powered HC4 ultrasonic rangefinder and a set of
-Mi.light RGBW wireless LED bulbs with two scenes.
+This welds together my Teensy-powered HC-SR04 ultrasonic rangefinder and a
+set of Mi.light RGBW wireless LED bulbs to give my house exterior two
+different looks:
 
 - Scene 1: Sconces beside the door white, like normal house lights.
 - Scene 2: Sconces orange, effect lamps hidden in flowerpots purple.
